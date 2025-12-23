@@ -1,23 +1,43 @@
 import React from "react"
 import CenterCard from "../layout/CenterCard"
 import { useExperiment } from "../../store/useExperiment"
-import { de } from "../../content/de"
-import { en } from "../../content/en"
 
 export default function ConsentStep() {
-  const { language, nextStep } = useExperiment()
-  const content = language === "de" ? de.consent : en.consent
+  const { language, setConsent, setStep } = useExperiment()
 
-  return (
-    <CenterCard title={content.title}>
-      <p>{content.text}</p>
-      <a href={content.link} target="_blank" rel="noreferrer">
-        {language === "de" ? "Formular öffnen" : "Open form"}
-      </a>
-      <br />
-      <button onClick={nextStep} style={{ marginTop: "20px", padding: "10px 20px" }}>
-        {language === "de" ? "Weiter" : "Next"}
-      </button>
-    </CenterCard>
+  const handleAgree = () => {
+    setConsent(true)
+    setStep("demographics")
+  }
+
+  const handleDisagree = () => {
+    setConsent(false)
+    setStep("thankYou")
+  }
+
+  return React.createElement(
+    CenterCard,
+    { title: language === "de" ? "Einverständnis" : "Consent" },
+    React.createElement(
+      "div",
+      {},
+      language === "de"
+        ? "Bitte stimmen Sie der Teilnahme zu."
+        : "Please agree to participate.",
+      React.createElement(
+        "div",
+        { style: { marginTop: 20 } },
+        React.createElement(
+          "button",
+          { onClick: handleAgree, style: { marginRight: 10, padding: "10px 20px" } },
+          language === "de" ? "Zustimmen" : "Agree"
+        ),
+        React.createElement(
+          "button",
+          { onClick: handleDisagree, style: { padding: "10px 20px" } },
+          language === "de" ? "Nicht zustimmen" : "Disagree"
+        )
+      )
+    )
   )
 }

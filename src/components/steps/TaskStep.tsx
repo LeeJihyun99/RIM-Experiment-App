@@ -1,30 +1,38 @@
 import React, { useEffect } from "react"
-import CenterCard from "../layout/CenterCard"
 import { useExperiment } from "../../store/useExperiment"
+import type { TaskConfig } from "../../store/useExperiment"
+import CenterCard from "../layout/CenterCard"
 
-type TaskStepProps = {
-  tool: "chatgpt" | "google"
+interface TaskStepProps {
+  task: TaskConfig
 }
 
-export default function TaskStep({ tool }: TaskStepProps) {
-  const { nextStep, startTaskTimer, stopTaskTimer, recordTaskResult } = useExperiment()
+export default function TaskStep({ task }: TaskStepProps) {
+  const { step, startTaskTimer, stopTaskTimer, recordTaskResult, nextStep } = useExperiment()
 
   useEffect(() => {
     startTaskTimer()
     return () => stopTaskTimer()
   }, [])
 
-  const finishTask = () => {
-    recordTaskResult(tool, { completed: true })
+  const handleComplete = () => {
+    stopTaskTimer()
+    recordTaskResult(step, { task, completed: true, timestamp: new Date().toISOString() })
     nextStep()
   }
 
-  return (
-    <CenterCard title={`Task with ${tool}`}>
-      <p>Perform the assigned information task using {tool}.</p>
-      <button onClick={finishTask} style={{ marginTop: "20px", padding: "10px 20px" }}>
-        Finish Task
-      </button>
-    </CenterCard>
+  return React.createElement(
+    CenterCard,
+    { title: `Task ${task.name}: ${task.tool.toUpperCase()}` },
+    React.createElement(
+      "div",
+      {},
+      `Use ${task.tool} to complete Task ${task.name}.`,
+      React.createElement(
+        "button",
+        { onClick: handleComplete, style: { marginTop: 20, padding: "10px 20px" } },
+        "Complete Task"
+      )
+    )
   )
 }

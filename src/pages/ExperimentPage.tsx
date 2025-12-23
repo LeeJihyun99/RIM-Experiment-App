@@ -1,55 +1,51 @@
 import React from "react"
 import { useExperiment } from "../store/useExperiment"
-import LanguageToggle from "../components/LanguageToggle"
-
-// Steps
 import WelcomeStep from "../components/steps/WelcomeStep"
 import ConsentStep from "../components/steps/ConsentStep"
-import SurveyStep from "../components/steps/SurveyStep"
-import InstructionStep from "../components/steps/InstructionStep"
-import PracticeStep from "../components/steps/PracticsStep"
+import DemographicsStep from "../components/steps/DemographicsStep"
+import PreSurveyStep from "../components/steps/PreSurveyStep.tsx"
+import PracticeStep from "../components/steps/PracticeStep"
 import TaskStep from "../components/steps/TaskStep"
-import ThankYouStep from "../components/steps/ThankyouStep"
+import PostSurveyStep from "../components/steps/PostSurveyStep"
+import ThankYouStep from "../components/steps/ThankYouStep"
+import TopBar from "../components/layout/TopBar"
 
 export default function ExperimentPage() {
-  const { step, toolOrder } = useExperiment()
+  const { step, currentTask } = useExperiment()
 
-  const renderStep = () => {
-    switch (step) {
-      case "welcome":
-        return <WelcomeStep />
-      case "consent":
-        return <ConsentStep />
-      case "demographics":
-        return <SurveyStep type="demographics" />
-      case "instruction":
-        return <InstructionStep />
-      case "practice":
-        return <PracticeStep />
-      case "taskA":
-        return <TaskStep tool={toolOrder[0]} />
-      case "postA":
-        return <SurveyStep type="A1" />
-      case "taskB":
-        return <TaskStep tool={toolOrder[1]} />
-      case "postB":
-        return <SurveyStep type="A2" />
-      case "done":
-        return <ThankYouStep />
-      default:
-        return <div>Unknown step</div>
-    }
+  let StepComponent: React.ReactNode = null
+
+  switch (step) {
+    case "welcome":
+      StepComponent = React.createElement(WelcomeStep)
+      break
+    case "consent":
+      StepComponent = React.createElement(ConsentStep)
+      break
+    case "demographics":
+      StepComponent = React.createElement(DemographicsStep)
+      break
+    case "preSurvey":
+      StepComponent = React.createElement(PreSurveyStep)
+      break
+    case "practice":
+      StepComponent = React.createElement(PracticeStep)
+      break
+    case "task":
+      if (currentTask) StepComponent = React.createElement(TaskStep, { task: currentTask })
+      break
+    case "postSurvey":
+      StepComponent = React.createElement(PostSurveyStep)
+      break
+    case "thankYou":
+      StepComponent = React.createElement(ThankYouStep)
+      break
   }
 
-  return (
-    <div style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-      {/* 상단 Language Toggle */}
-      <header style={{ width: "100%", display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
-        <LanguageToggle />
-      </header>
-
-      {/* 현재 Step 렌더링 */}
-      {renderStep()}
-    </div>
+  return React.createElement(
+    "div",
+    { style: { width: "100%", maxWidth: 900, margin: "0 auto" } },
+    React.createElement(TopBar),
+    StepComponent
   )
 }
