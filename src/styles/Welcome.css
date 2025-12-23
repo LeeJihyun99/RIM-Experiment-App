@@ -1,0 +1,46 @@
+.welcome-page {
+  min-height: 100vh;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 영역 */
+.welcome-header {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+}
+
+/* 중앙 무대 */
+.welcome-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 카드 */
+.welcome-card {
+  width: 100%;
+  max-width: 560px;
+  background: white;
+  padding: 48px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* 타이틀 */
+.welcome-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #18181b;
+}
+
+/* 내용 */
+.welcome-content {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #52525b;
+}

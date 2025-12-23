@@ -1,24 +1,27 @@
 import { useExperiment } from "../store/useExperiment"
+import "../styles/LanguageToggle.css"
 
 export default function LanguageToggle() {
   const { language, setLanguage } = useExperiment()
-
-  const toggleLanguage = () => {
-    setLanguage(language === "de" ? "en" : "de")
-  }
+  const isEn = language === "en"
 
   return (
-    <button
-      onClick={toggleLanguage}
-      style={{
-        padding: "8px 16px",
-        borderRadius: "20px",
-        border: "1px solid #ccc",
-        cursor: "pointer",
-        fontWeight: "bold",
-      }}
-    >
-      {language === "de" ? "DE 🇩🇪" : "EN 🇬🇧"}
-    </button>
+    <div className="lang-toggle">
+      <button
+        className={!isEn ? "active" : ""}
+        onClick={() => setLanguage("de")}
+      >
+        DE
+      </button>
+
+      <button
+        className={isEn ? "active" : ""}
+        onClick={() => setLanguage("en")}
+      >
+        EN
+      </button>
+
+      <div className={`indicator ${isEn ? "right" : "left"}`} />
+    </div>
   )
 }

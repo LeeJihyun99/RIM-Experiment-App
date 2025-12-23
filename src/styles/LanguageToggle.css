@@ -1,0 +1,44 @@
+.lang-toggle {
+  position: relative;
+  display: inline-flex;
+  background: #f4f4f5;
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.lang-toggle button {
+  position: relative;
+  z-index: 1;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #71717a;
+  transition: color 0.2s ease;
+}
+
+.lang-toggle button.active {
+  color: #18181b;
+}
+
+.indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: 50%;
+  background: white;
+  border-radius: 9999px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease;
+}
+
+.indicator.left {
+  transform: translateX(0%);
+}
+
+.indicator.right {
+  transform: translateX(100%);
+}
